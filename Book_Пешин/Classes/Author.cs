@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Book_Пешин.Classes
 {
-    public class Author  // Добавлен public
+    public class Author
     {
+        private static List<Author> _authors = new List<Author>();
+
         public int Id { get; set; }
         public string FIO { get; set; }
 
@@ -13,13 +16,25 @@ namespace Book_Пешин.Classes
             this.FIO = fio;
         }
 
+        /// <summary> Загрузка авторов из внешнего источника </summary>
+        public static void LoadAuthors(List<Author> authors)
+        {
+            _authors = authors;
+        }
+
+        /// <summary> Репозиторий авторов </summary>
         public static List<Author> AllAuthors()
         {
-            List<Author> allAuthors = new List<Author>();
-            allAuthors.Add(new Author(1, "Виктор Пелевин"));
-            allAuthors.Add(new Author(2, "Александра Маринина"));
-            allAuthors.Add(new Author(3, "Ольга Герр"));
-            return allAuthors;
+            if (!_authors.Any())
+            {
+                _authors = new List<Author>
+                {
+                    new Author(1, "Виктор Пелевин"),
+                    new Author(2, "Александра Маринина"),
+                    new Author(3, "Ольга Герр")
+                };
+            }
+            return _authors;
         }
     }
 }
